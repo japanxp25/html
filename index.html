@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本地図</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-wrapper"> 
+<!--
+	    <div  class="checked-items-panel">
+            <h2>Checked Items</h2>
+            <p class="empty-list-message">No items checked yet.</p>
+        </div> -->
+		<div id="checked-items-panel" class="main-header-panel">
+			<div>
+				<label for="dataSourceSelect"><span id="textDataSource">Data Source:</span></label>
+				<select id="dataSourceSelect"></select>
+			</div>
+			<div>
+				<!--select id="langOptionSelect">
+					<option value="en">English</option>
+					<option value="tc">Chinese</option>
+					<option value="jp">Japanese</option>
+				</select-->
+			</div>
+		</div>
+        <div class="container">
+            <div class="abstract-map-container" id="abstract-map-container">
+            </div>
+
+			<div id="checkedItemsList" class="checked-items-scrollable">
+				<p id="no-items-message" class="no-items-message"></p>
+			</div>
+
+			<div id="checklist-popup" class="popup-overlay">
+				<div class="popup-content">
+					<h2 id="popup-prefecture-name"></h2> 
+					<div id="popup-content" class="popup-scroll-content"></div>
+					<button id="close-popup-btn">❌</button>
+				</div>
+			</div>
+			
+			<div id="cleanDataPopup" class="cleandata-popup">
+				<div class="popup-content">
+					<h2 id="popup-clear-data"></h2> 
+					<div id="popup-content" class="popup-scroll-content"></div>
+					<button id="close-popup-btn">❌</button>
+				</div>
+			</div>
+			
+            <div id="instagramPopup" class="instagram-popup">
+                <div class="popup-content">
+                    <span class="close-button">&times;</span>
+                    <h4><span id="textInstgramId">Instagram ID:</span></h4>
+                    <input type="text" id="instagramIdInput" placeholder="@yourinstagram">
+                    <button id="saveInstagramId"><span id="textInstgramSave">Save</span></button>
+                </div>
+            </div>
+
+            <button id="savePngButton"><span id="textDownloadPng">Download PNG</span></button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+	  <script src="mapData_tc.js"></script>
+</body>
+</html>
