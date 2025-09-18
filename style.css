@@ -1,0 +1,849 @@
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    margin: 0; 
+    padding: 20px;
+    box-sizing: border-box;
+}
+.container {
+    position: relative;
+	display: flex;
+	flex-wrap: wrap;
+    padding: 5px;
+    text-align: center;
+    width: 100%;
+    max-width: 1200px; 
+    box-sizing: border-box;
+	margin:auto;
+}
+
+.main-header-panel {
+	max-width: 1100px;
+	min-width: 768px;
+	display: flex; 
+	justify-content: space-between; 
+	align-items: center; 
+	margin-bottom: 10px; 
+	flex-wrap: wrap;
+}
+
+.main-content-wrapper {
+	display: flex; /* Use flexbox to arrange children side-by-side */
+	justify-content: center; /* Center the content if total width is less than max-width */
+	align-items: flex-start; /* Align items to the top of the container */
+	gap: 30px; /* Space between the map and the checked list */
+	max-width: 1200px; /* Limit the overall width on large screens */
+	margin: 20px auto; /* Center the wrapper horizontally and add vertical margin */
+	padding: 15px; /* Add some padding around the content */
+}
+
+.checked-items-panel {
+	display: flex; 
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 250px;
+    box-sizing: border-box;
+    align-self: flex-start;
+}
+
+.checked-items-panel h2 {
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.checked-items-scrollable {
+    max-height: 800px;
+    overflow-y: auto;
+    padding-right: 20px;
+	padding-left: 20px;
+	max-width: 250px;
+	width: 30%;
+}
+
+.checked-items-scrollable ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+
+.checked-items-scrollable li {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 5px 5px;
+    margin-bottom: 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: left;
+    font-size: 0.8em;
+    color: #555;
+}
+
+.checked-items-scrollable li strong {
+    margin-right: 5px;
+    flex-shrink: 0;
+}
+
+.checked-items-scrollable li .item-name {
+    flex-grow: 1;
+	padding-top:2px;
+	font-size: 1em;
+}
+.checked-items-scrollable li .item-place {
+    flex-grow: 1;
+	padding-top:2px;
+	font-size: 1em;
+}
+.checked-items-scrollable li .item-icon {
+    flex-grow: 1;
+}
+
+.checked-items-scrollable h3 {
+    color: #007bff;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 0.7em;
+    border-bottom: 1px dashed #cce0ff;
+    padding-bottom: 0px;
+}
+
+.checked-items-scrollable .empty-list-message {
+    color: #888;
+    text-align: center;
+    padding: 20px;
+}
+
+.main-wrapper {
+    flex-direction: column; /* Default to column for mobile */
+    align-items: center;
+    width: 100%;
+    max-width: 1600px; /* Increased max-width for the entire application layout */
+    gap: 20px; /* Space between map container and checklist panel */
+}
+
+#cleanDataPopup {
+    display: none; /* Hidden by default - JavaScript will change this to 'flex' */
+    position: fixed; /* Positions relative to the viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+    z-index: 1000; /* Ensure it's on top of almost everything else */
+
+    /* Flexbox for centering the inner content */
+    display: flex;
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center */
+
+    /* Smooth transition for showing/hiding (optional, but nice) */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#cleanDataPopup.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+#instagramPopup {
+    display: none; /* Hidden by default - JavaScript will change this to 'flex' */
+    position: fixed; /* Positions relative to the viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+    z-index: 1000; /* Ensure it's on top of almost everything else */
+
+    /* Flexbox for centering the inner content */
+    display: flex;
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center */
+
+    /* Smooth transition for showing/hiding (optional, but nice) */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#instagramPopup.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.instagram-popup .popup-content {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 500px; /* Limit popup width */
+    max-height: 80vh; /* Limit popup height to prevent overflow on small screens */
+    overflow-y: auto; /* Enable scrolling if content exceeds max-height */
+    position: relative; /* Needed for positioning close button, if it's absolute */
+    transform: scale(0.9); /* Start slightly smaller for transition effect */
+    transition: transform 0.3s ease; /* Smooth scale transition */
+}
+
+.instagram-popup h4 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.instagram-popup input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.instagram-popup button {
+    padding: 10px 20px;
+    background-color: #28a745; /* Green save button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s ease;
+}
+
+.instagram-popup button:hover {
+    background-color: #218838;
+}
+
+.instagram-popup .close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.instagram-popup .close-button:hover {
+    color: #333;
+}
+
+.cleandata-popup .popup-content {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 500px; 
+    max-height: 80vh; 
+    overflow-y: auto;
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+
+
+@media (min-width: 768px) {
+    .main-wrapper {
+        flex-direction: row; /* Side-by-side for desktop */
+        align-items: flex-start; /* Align items to the top */
+        justify-content: center;
+    }
+}
+
+@media (min-width: 768px) {
+/*
+    .checked-items-panel {
+        width: 300px; 
+        max-height: 800px; 
+        overflow-y: auto; 
+    }
+*/
+}
+
+@media (max-width: 767px) {
+/*
+.checked-items-panel {
+    margin-top: 0;  Handled by main-wrapper gap 
+    }
+*/
+}
+
+.counter-box {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #e6f7ff;
+    border: 1px solid #91d5ff;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #003a8c;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.score-container {
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+}
+
+.level-color-indicator {
+    width: 30px; /* Size of the square */
+    height: 20px;
+    border: 1px solid #ccc; /* Optional border */
+    border-radius: 3px; /* Slightly rounded corners */
+}
+
+.level-scale {
+    display: flex;
+    width: 100%; /* Adjust as needed */
+    height: 10px; /* Height of the scale */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden; /* Ensures colors stay within the border radius */
+    margin-top: 10px; /* Space between score and scale */
+}
+
+.level {
+    flex-grow: 1;
+    height: 100%;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0.8;
+}
+
+.level + .level {
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.instagram-display {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: #fff0f5;
+    border: 1px solid #ffb3d9;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1em;
+    color: #e91e63;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.instagram-display:hover {
+    background-color: #ffdaeb;
+}
+
+.abstract-map-container {
+    position: relative;
+    max-width: 1000px;
+	min-width: 768px;
+	width:70%;
+    border: 1px solid #ccc; 
+    border-radius: 8px; 
+    overflow: hidden;
+	height: 800px;
+	background-color: #e0f2f7;
+	background-image: linear-gradient(to right, #f2fafd 1px, transparent 1px),
+                      linear-gradient(to bottom, #f2fafd 1px, transparent 1px);
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.08);
+    border-radius: 8px;
+}
+
+@media (min-width: 768px) {
+    .container { /* The container holding the map */
+        /* margin-right: 20px; /* Space between map and panel */
+    }
+}
+
+@media (max-width: 767px) {
+    .abstract-map-container {
+        width: 90vw; /* Fluid width based on viewport */
+        height: calc(90vw * (1600 / 1448)); /* Proportional height for mobile */
+        margin: 15px auto;
+    }
+}
+.prefecture-block {
+    position: absolute;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: rgba(100, 180, 255, 0.3);
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease, color 0.2s ease;
+    display: flex;
+	flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8em;
+    color: #eeeeee;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.2;
+    padding: 2px;
+    border-radius: 3px;
+    /* No transform: rotate(-90deg); - text is displayed normally */
+	overflow: visible; /* Allow absolute children (badge) to extend beyond bounds */
+}
+.prefecture-block-l {
+    position: absolute;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: rgba(100, 180, 255, 0.3);
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease, color 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8em;
+    color: #eeeeee;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.2;
+    padding: 2px;
+    border-radius: 3px;
+    /* No transform: rotate(-90deg); - text is displayed normally */
+	overflow: visible; /* Allow absolute children (badge) to extend beyond bounds */
+}
+.prefecture-icon {
+    font-size: 1.5em;
+    pointer-events: none; 
+    margin-bottom: 5px; 
+}
+.checked-count-badge {
+    position: absolute;
+    top: -8px; /* Position to the top-right of the block */
+    right: -8px; /* Position to the top-right of the block */
+    background-color: #e74c3c; /* Red background */
+    color: white;
+    border-radius: 50%; /* Circular shape */
+    width: 20px; /* Size of the circle */
+    height: 20px; /* Size of the circle */
+    display: flex; /* Use flex to center the number */
+    justify-content: center;
+    align-items: center;
+    font-size: 0.7em; /* Small font size for the number */
+    font-weight: bold;
+    z-index: 20; /* Ensure it's above the prefecture block */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Subtle shadow */
+    display: none; /* Hidden by default, shown by JS if count > 0 */
+    pointer-events: none; /* Allows clicks to pass through to the prefecture block */
+}
+
+@media (max-width: 767px) {
+    .checked-count-badge {
+        width: 18px;
+        height: 18px;
+        font-size: 0.65em;
+        top: -6px;
+        right: -6px;
+    }
+}
+
+#checklist-popup {
+    display: none; 
+    position: fixed; 
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); 
+
+    z-index: 1000; 
+
+    /* Flexbox for centering the inner content */
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+
+    /* Smooth transition for showing/hiding (optional, but nice) */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease; 
+}
+
+#cleardata-popup {
+    display: none; 
+    position: fixed; 
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); 
+
+    z-index: 1000; 
+
+    /* Flexbox for centering the inner content */
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+
+    /* Smooth transition for showing/hiding (optional, but nice) */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease; 
+}
+
+/* When the popup is active (shown by JS) */
+#checklist-popup.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Styles for the actual popup content box */
+#checklist-popup .popup-content {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 500px; /* Limit popup width */
+    max-height: 80vh; /* Limit popup height to prevent overflow on small screens */
+    overflow-y: auto; /* Enable scrolling if content exceeds max-height */
+    position: relative; /* Needed for positioning close button, if it's absolute */
+    transform: scale(0.9); /* Start slightly smaller for transition effect */
+    transition: transform 0.3s ease; /* Smooth scale transition */
+}
+
+/* When popup is active, scale it up */
+#checklist-popup.active .popup-content {
+    transform: scale(1);
+}
+
+
+/* Styles for the close button within the popup (optional, adjust as needed) */
+#close-popup-btn {
+    position: absolute; /* Position it relative to its parent (the popup) */
+    top: 10px;          /* Adjust as needed for vertical position */
+    right: 10px;        /* Adjust as needed for horizontal position */
+    background-color: #FFFFFF; /* Red background */
+    color: white;       /* White 'x' */
+    border: none;       /* No border */
+    border-radius: 4px; /* Slightly rounded corners for the square */
+    width: 30px;        /* Small square width */
+    height: 30px;       /* Small square height */
+    font-size: 18px;    /* Size of the 'x' */
+    font-weight: bold;  /* Make the 'x' bold */
+    cursor: pointer;    /* Indicate it's clickable */
+    display: flex;      /* Use flexbox to center the 'x' */
+    justify-content: center; /* Center horizontally */
+    align-items: center;     /* Center vertically */
+    padding: 0;         /* Remove default padding */
+    line-height: 1;     /* Ensure 'x' is vertically centered */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional: subtle shadow */
+    transition: background-color 0.2s ease; /* Smooth hover effect */
+}
+
+#close-popup-btn:hover {
+    background-color: #e60000; /* Darker red on hover */
+}
+
+/* Basic styling for the checklist items in the popup */
+.checklist-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.checklist-item input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2); /* Make checkboxes slightly larger */
+}
+
+.prefecture-block:hover {
+    background-color: rgba(100, 180, 255, 0.6);
+    border-color: rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px); /* Only Y translation on hover */
+}
+
+.prefecture-block.prefecture-checked {
+    background-color: rgba(0, 70, 150, 0.7);
+    border-color: rgba(0, 0, 0, 0.4);
+    color: #fff;
+}
+
+/* style.css */
+
+#grouping-toggle-btn {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease;
+}
+
+#grouping-toggle-btn:hover {
+    background-color: #0056b3;
+}
+
+
+/* Region-specific colors for the abstract blocks (unchanged) */
+.region-hokkaido { background-color: #bc964f; }
+.region-honshu { background-color: #863c57; }
+.region-shikoku { background-color: #6ba6ac; }
+.region-kyushu { background-color: #315654; }
+.region-okinawa { background-color: #603c4c; }
+
+/* Checked states for region-specific colors (unchanged) */
+.region-hokkaido.prefecture-checked { background-color: #ffbc42; }
+.region-honshu.prefecture-checked { background-color: #d81159; }
+.region-shikoku.prefecture-checked { background-color: #73d2de; }
+.region-kyushu.prefecture-checked { background-color: #218380; }
+.region-okinawa.prefecture-checked { background-color: #8f2d56; }
+
+/* --- Disbaled states for region-specific colors --- */
+.region-hokkaido.prefecture-disabled { background-color: #e9ecef; }
+.region-honshu.prefecture-disabled { background-color: #dee2e6; }
+.region-shikoku.prefecture-disabled { background-color: #ced4da; }
+.region-kyushu.prefecture-disabled { background-color: #adb5bd; }
+.region-okinawa.prefecture-disabled { background-color: #6c757d; }
+
+/* New: Region-wide selected style for simple mode */
+/* This will override individual prefecture-checked colors */
+.region-checked {
+    background-color: #3498db !important;
+    border-color: #2980b9 !important;
+    color: white !important;
+}
+
+/* ... (all other styles remain unchanged) ... */
+
+/* Popups (unchanged) */
+.popup { 
+    display: none; /* Hidden by default - JavaScript will change this to 'flex' */
+    position: fixed; /* Positions relative to the viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+    z-index: 1000; /* Ensure it's on top of almost everything else */
+
+    /* Flexbox for centering the inner content */
+    display: flex;
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center */
+
+    /* Smooth transition for showing/hiding (optional, but nice) */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.popup-content { 
+	min-width: 300px;
+	min-height: 200px;
+}
+.close-button { /* ... */ }
+#savePngButton {
+    margin-top: 30px;
+    padding: 12px 25px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+}
+
+#savePngButton:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+#savePngButton:active {
+    transform: translateY(0);
+}
+.hide-on-screenshot { 
+	display: none;
+}
+
+/* ==================================== */
+/* Media Queries for Responsiveness */
+/* ==================================== */
+
+/* Desktop / Larger Screens (e.g., > 768px) */
+@media (min-width: 768px) {
+    .main-wrapper {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 0;
+    }
+/*
+    #checked-items-panel {
+        width: 300px;
+        margin-right: 20px;
+        max-height: 800px; 
+    }
+*/
+    .container {
+        width: auto;
+        max-width: 1200px;
+    }
+
+    .counter-box {
+		position: absolute;
+		/* display:block;*/
+		display: flex;
+		top: 10px;
+		left: 10px;
+		background-color: #fff;
+		padding: 8px 12px;
+		border-radius: 5px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		font-size: 0.9em;
+		font-weight: bold;
+		z-index: 20;
+		transition: background-color 0.3s ease;
+    }
+
+	.textTitle {
+		flex: 100%;
+		font-size: 1.5em;
+		font-weight: bold;
+	}
+	
+	.textNote {
+		font-size: 0.8em;
+		min-width: 30px;
+	}
+	
+    .instagram-display {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .cleardata-display {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    #savePngButton {
+        position: relative;
+        margin-top: 30px;
+        left: 0; right: 0; bottom: 0;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (max-width: 767px) {
+    body {
+        padding: 10px;
+    }
+    .main-content-wrapper {
+        flex-direction: column; /* Stack items vertically */
+        align-items: center; /* Center items horizontally in the column */
+        gap: 20px; /* Space between stacked map and list */
+        margin: 10px; /* Adjust margin for mobile */
+        padding: 10px; /* Adjust padding for mobile */
+    }
+
+    #abstract-map-container {
+        width: 100%; /* Map takes full width on mobile */
+        min-width: unset; /* Remove desktop min-width constraint */
+        max-width: 100%; /* Map takes full width */
+        height: auto; /* Allow map height to adjust, e.g., based on aspect ratio or content */
+        max-height: 60vh; /* Optional: limit map height to 60% of viewport height on mobile */
+        order: 1; /* Ensure map is at the top (if needed, otherwise default order is fine) */
+    }
+
+    .checked-items-panel {
+        flex: none; /* Remove flex sizing */
+        order: 2; /* Ensure list is at the bottom */
+        margin-top: 0; /* Remove top margin if not needed due to gap */
+    }
+	
+    .main-wrapper {
+        gap: 15px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    .prefecture-block {
+        font-size: 0.6em;
+    }
+
+    .counter-box,
+    .instagram-display {
+        position: static; 
+        margin: 10px auto; 
+        width: fit-content;
+        left: auto; top: auto; right: auto; bottom: auto; 
+    }
+
+    #savePngButton {
+        position: static; /* Remove absolute positioning */
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 1em;
+        width: 100%; /* Full width button */
+    }
+
+    .popup-content {
+        padding: 20px;
+    }
+
+    #popupPrefectureName {
+        font-size: 1.5em;
+    }
+
+    #checklistItems label {
+        font-size: 1em;
+    }
+
+    #checklistItems input[type="checkbox"] {
+        transform: scale(1.1);
+    }
+}
+
+/* Smallest mobile screens (e.g., < 480px) */
+@media (max-width: 480px) {
+    .abstract-map-container {
+        width: 95vw; /* Even larger relative width for very small screens */
+        height: calc(95vw * (819 / 1448));
+        transform: none;
+    }
+
+    .prefecture-block {
+        font-size: 0.5em;
+    }
+
+    .counter-box,
+    .instagram-display {
+        font-size: 0.9em;
+        padding: 8px 12px;
+    }
+}
