@@ -254,26 +254,6 @@ body {
     transition: transform 0.3s ease;
 }
 
-
-
-@media (min-width: 768px) {
-    .main-wrapper {
-        flex-direction: row; /* Side-by-side for desktop */
-        align-items: flex-start; /* Align items to the top */
-        justify-content: center;
-    }
-}
-
-@media (min-width: 768px) {
-/*
-    .checked-items-panel {
-        width: 300px; 
-        max-height: 800px; 
-        overflow-y: auto; 
-    }
-*/
-}
-
 .counter-box {
     position: absolute;
     top: 20px;
@@ -728,13 +708,14 @@ body {
 @media (max-width: 767px) {
     body {
         padding: 10px;
+		
     }
 	.main-wrapper {
-        width: 100vw;
-        height: 50vh;
+        width: 100%;
+        height: auto;
 	}
 	.container {
-        padding: 15px;
+		max-width: 480px;
     }
     .main-content-wrapper {
         flex-direction: column; /* Stack items vertically */
@@ -751,11 +732,8 @@ body {
         right: -6px;
     }
 	.abstract-map-container {
-        width: 100vw;
-        height: 100vh;
-        max-width: 100%; 
-        max-height: 70vh; /* Optional: limit map height to 60% of viewport height on mobile */
-
+		min-width:320px;
+		max-height: 320px;
     }
     .checked-items-panel {
         flex: none; /* Remove flex sizing */
@@ -766,8 +744,40 @@ body {
         gap: 15px;
     }
     .prefecture-block {
-        /*font-size: 0.6em;*/
+        font-size: 0.1em;
     }
+	.prefecture-block-l {
+        font-size: 0.1em;
+    }
+	.checked-count-badge{
+		position: absolute;
+		top: -4px; /* Position to the top-right of the block */
+		right: -4px; /* Position to the top-right of the block */
+		background-color: #e74c3c; /* Red background */
+		color: white;
+		border-radius: 50%; /* Circular shape */
+		width: 10px; /* Size of the circle */
+		height: 10px; /* Size of the circle */
+		display: flex; /* Use flex to center the number */
+		justify-content: center;
+		align-items: center;
+		font-size: 0.2em; /* Small font size for the number */
+		font-weight: bold;
+		z-index: 20; /* Ensure it's above the prefecture block */
+		box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Subtle shadow */
+		display: none; /* Hidden by default, shown by JS if count > 0 */
+		pointer-events: none; /* Allows clicks to pass through to the prefecture block */
+	}
+	
+	.checked-items-scrollable {
+		max-height: 300px;
+		overflow-y: auto;
+		/* 
+		padding-right: 20px;
+		padding-left: 20px;
+		*/
+		width: 100%;
+	}
     .counter-box,
     .instagram-display {
         position: static; 
@@ -777,11 +787,11 @@ body {
     }
 
     #savePngButton {
-        position: static; /* Remove absolute positioning */
-        margin-top: 20px;
-        padding: 10px 20px;
+        position: static;
+        margin: 20px;
+        padding: 20px 20px;
         font-size: 1em;
-        width: 100%; /* Full width button */
+        width: 80%; /* Full width button */
     }
 
     .popup-content {
@@ -798,24 +808,5 @@ body {
 
     #checklistItems input[type="checkbox"] {
         transform: scale(1.1);
-    }
-}
-
-/* Smallest mobile screens (e.g., < 480px) */
-@media (max-width: 480px) {
-    .abstract-map-container {
-        width: 100vw;
-        height: 70vh;
-        transform: none;
-    }
-
-    .prefecture-block {
-        font-size: 0.5em;
-    }
-
-    .counter-box,
-    .instagram-display {
-        font-size: 0.9em;
-        padding: 8px 12px;
     }
 }
