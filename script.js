@@ -29,12 +29,20 @@ let currentGroupingType = 'region';
 let isSimpleMode = false; 
 let themeIcon = '';
 let textLabel = {};
+let SCALE_FACTOR = 1;
 
-const MAP_SOURCE_WIDTH = 724; 
+const WIN_WIDTH = window.outerWidth;
+const MAP_DESKTOP_WIDTH = 800; 
+const MAP_MOBILE_WIDTH = 370; 
 const MAP_SOURCE_HEIGHT = 800;
+const DISPLAY_MAP_TARGET_HEIGHT = 1100; 
 
-const DISPLAY_MAP_TARGET_HEIGHT = 800; 
-const SCALE_FACTOR = DISPLAY_MAP_TARGET_HEIGHT / MAP_SOURCE_HEIGHT;
+if (WIN_WIDTH < MAP_MOBILE_WIDTH){
+	SCALE_FACTOR = MAP_MOBILE_WIDTH / DISPLAY_MAP_TARGET_HEIGHT;
+} else if (WIN_WIDTH < MAP_DESKTOP_WIDTH){
+	SCALE_FACTOR = WIN_WIDTH / DISPLAY_MAP_TARGET_HEIGHT;
+}
+console.log("SCALE_FACTOR:" + SCALE_FACTOR);
 
 const prefectureElements = {};
 const regionToPrefecturesMap = {};
@@ -138,13 +146,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 		prefectureData = {};
         loadPrefectureData(selectedApiUrl);
     });
-/*
-	langOptionSelect.addEventListener('change', (event) => {
-		langSelect = langOptionSelect.value;
-		localStorage.setItem('prefLang', langSelect);
-		loadDataSources();
-    });
-*/
+	
 	for (const prefecture in prefectureToRegionMap) {
 		const region = prefectureToRegionMap[prefecture];
 		if (!regionToPrefecturesMap[region]) {
